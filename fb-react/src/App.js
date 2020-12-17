@@ -13,6 +13,26 @@ import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 function App() {
   const [{ user }, dispatch] = useStateValue();
   
+   useEffect(()=>{
+     auth.onAuthStateChanged(authUser => {
+       console.log('THE USER IS >>> ', authUser);
+
+       if(authUser){
+
+        dispatch({
+          type: 'SET_USER',
+          user: authUser
+        })
+       }
+       else{
+        dispatch({
+          type:'SET_USER',
+          user: null
+        })
+       }
+     })
+  }, [])
+  
   return (
     <div className="App">
       {

@@ -1,0 +1,28 @@
+MONGODB:
+fbclient
+puE4BR1jWDGBl9oI
+
+const storage = new GridFsStorage({
+    url: mongoURI,
+    file: (req, file) => {
+        return new Promise((resolve, reject)) => {
+
+            const filename = `image-${Date.now()}${path.extname(file.orignalname)}`
+
+            const fileInfo = {
+                filename: filename,
+                bucketName: 'images'
+            };
+
+            resolve(fileInfo);
+        });
+    }
+});
+    
+
+
+const upload = multer({ storage });
+
+app.post('/upload/image', upload.single('file'), (req, res)=>{
+    res.status(201).send(req.file)
+})
